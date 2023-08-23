@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with Lambda</title>
+    <style>
+        #chatArea {
+            height: 300px;
+            width: 300px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+        }
+        #userInput {
+            width: 290px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Chat with Lambda Function</h1>
+
+<div id="chatArea">
+</div>
+
+<input type="text" id="userInput" placeholder="Type a message...">
+<button id="sendBtn">Send</button>
+
+<script>
+document.getElementById('sendBtn').addEventListener('click', async function() {
+    const userInput = document.getElementById('userInput').value;
+    const chatArea = document.getElementById('chatArea');
+    
+    // Display user's message
+    chatArea.innerHTML += `<div>User: ${userInput}</div>`;
+    
+    // API Gateway URL
+    const url = 'https://hngxgdvlhrpucxqq2wrcrdqv4e0ycemc.lambda-url.ap-northeast-1.on.aws/';
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: userInput })  // Sending user input as JSON
+        });
+        
+        const data = await response.json();  // Parsing response to JSON
+        
+        // Display Lambda's response
+        chatArea.innerHTML += `<div>Lambda: ${data.body}</div>`;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    
+    // Clear user input
+    document.getElementById('userInput').value = '';
+});
+</script>
+
+</body>
+</html>
