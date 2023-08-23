@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chat with Lambda</title>
+    <title>Python BOT</title>
     <style>
         #chatArea {
             height: 300px;
-            width: 300px;
+            width: 800px;
             border: 1px solid #ccc;
             overflow-y: scroll;
         }
@@ -30,7 +30,7 @@ document.getElementById('sendBtn').addEventListener('click', async function() {
     const chatArea = document.getElementById('chatArea');
     
     // Display user's message
-    chatArea.innerHTML += `<div>User: ${userInput}</div>`;
+    chatArea.innerHTML += `<div>user: ${userInput}</div>`;
     
     // API Gateway URL
     const url = 'https://hngxgdvlhrpucxqq2wrcrdqv4e0ycemc.lambda-url.ap-northeast-1.on.aws/';
@@ -47,7 +47,7 @@ document.getElementById('sendBtn').addEventListener('click', async function() {
         const data = await response.json();  // Parsing response to JSON
         
         // Display Lambda's response
-        chatArea.innerHTML += `<div>Lambda: ${data.message}</div>`;
+        chatArea.innerHTML += `<div>assistant: ${data.message}</div>`;
     } catch (error) {
         console.error('Error:', error);
     }
