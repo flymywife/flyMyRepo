@@ -47,7 +47,7 @@ document.getElementById('sendBtn').addEventListener('click', async function() {
         const data = await response.json();  // Parsing response to JSON
         
         // Display Lambda's response
-        chatArea.innerHTML += `<div>Lambda: ${data.body}</div>`;
+        chatArea.innerHTML += `<div>Lambda: ${data.message}</div>`;
     } catch (error) {
         console.error('Error:', error);
     }
