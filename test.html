@@ -12,6 +12,23 @@
         #userInput {
             width: 290px;
         }
+        .message {
+            max-width: 80%;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user {
+            text-align: right;
+        }
+        .user .message {
+            background-color: #f1f1f1;
+            display: inline-block;
+        }
+        .assistant .message {
+            background-color: #ddd;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -25,35 +42,33 @@
 <button id="sendBtn">Send</button>
 
 <script>
-document.getElementById('sendBtn').addEventListener('click', async function() {
+async function sendMessage() {
     const userInput = document.getElementById('userInput').value;
+    if (userInput.trim() === '') return;
+
     const chatArea = document.getElementById('chatArea');
+    chatArea.innerHTML += `<div class="user"><div class="message">User: ${userInput}</div></div>`;
     
-    // Display user's message
-    chatArea.innerHTML += `<div>user: ${userInput}</div>`;
-    
-    // API Gateway URL
     const url = 'https://hngxgdvlhrpucxqq2wrcrdqv4e0ycemc.lambda-url.ap-northeast-1.on.aws/';
-    
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text: userInput })  // Sending user input as JSON
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: userInput })
         });
-        
-        const data = await response.json();  // Parsing response to JSON
-        
-        // Display Lambda's response
-        chatArea.innerHTML += `<div>assistant: ${data.message}</div>`;
+
+        const data = await response.json();
+        chatArea.innerHTML += `<div class="assistant"><div class="message">Assistant: ${data.message}</div></div>`;
     } catch (error) {
         console.error('Error:', error);
     }
     
-    // Clear user input
     document.getElementById('userInput').value = '';
+}
+
+document.getElementById('sendBtn').addEventListener('click', sendMessage);
+document.getElementById('userInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
 });
 </script>
 
