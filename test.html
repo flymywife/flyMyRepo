@@ -2,64 +2,7 @@
 <html>
 <head>
     <title>Python BOT</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        #chatContainer {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        #chatArea {
-            height: 300px;
-            overflow-y: scroll;
-            padding: 20px;
-        }
-        .userMessage, .assistantMessage {
-            display: inline-block; /* これにより、コンテンツに合わせてサイズが決まります */
-            max-width: 80%; /* しかし最大でこの幅までとなります */
-            padding: 10px;
-            margin: 10px;
-            border-radius: 16px;
-        }
-        .userMessage {
-            background: #007bff;
-            color: white;
-            float: right;/* 文字は左に */
-        }
-        .assistantMessage {
-            background: #f1f1f1;
-            float: left;
-        }
-        #inputContainer {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            border-top: 1px solid #ccc;
-        }
-        #userInput {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #sendBtn {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" type="text/css" href="styles.css"></head>
 <body>
 
 <div id="chatContainer">
@@ -71,44 +14,7 @@
     </div>
 </div>
 
-<script>
-document.getElementById('sendBtn').addEventListener('click', sendMessage);
-document.getElementById('userInput').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
-});
-
-async function sendMessage() {
-    const userInput = document.getElementById('userInput').value;
-    const chatArea = document.getElementById('chatArea');
-
-    if(userInput.trim() === '') return;
-
-    chatArea.innerHTML += `<div style="clear: both;"><div class="userMessage">User: ${userInput}</div></div>`;
-
-
-    const url = 'https://hngxgdvlhrpucxqq2wrcrdqv4e0ycemc.lambda-url.ap-northeast-1.on.aws/';
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text: userInput })
-        });
-
-        const data = await response.json();
-        chatArea.innerHTML += `<div style="clear: both;"><div class="assistantMessage">Assistant: ${data.message}</div></div>`;
-
-    } catch (error) {
-        console.error('Error:', error);
-    }
-
-    document.getElementById('userInput').value = '';
-}
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
